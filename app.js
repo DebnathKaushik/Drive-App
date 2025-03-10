@@ -4,14 +4,18 @@ const dotenv = require('dotenv')
 dotenv.config()
 const dbconnection = require('./config/db')
 dbconnection()
+const cookieParser = require('cookie-parser')
 
 const app = express()
+
 //env file config
+
 
 
 // ejs setting
 app.set("view engine","ejs") 
 //json middleware
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
