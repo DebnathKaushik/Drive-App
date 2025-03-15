@@ -97,7 +97,7 @@ router.post("/login",body_MW_login, async (req,res)=>{
                         
                     }, process.env.JWT_SECRET)  // JWT secret
                 
-                    res.cookie("token",token)
+                    res.cookie("token",token)    // Save token in Browser Cookie 
                     res.send("User Logged in!")
                 }
                 
