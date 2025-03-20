@@ -22,26 +22,26 @@ router.post("/register",body_MW_register ,async (req,res)=>{
 
     const errors = validationResult(req)
         if(!errors.isEmpty()){
-            return res.status(400).json({errors:errors.array(),message:"Invalid"})
+            return res.status(400).json({message:"Invalid credentials"})
         }else{   
         const { username, email, password } = req.body;
         const hashPassword = await bcrypt.hash(password,10) // for hash the password
         try {
-            // Check if the email and username already exists in the database
-            const[existingemail,existingUser] = await Promise.all([
-                UserModel.findOne({email}),
-                UserModel.findOne({username})
+            const [existingemail,existingUser] = await Promise.all([
+                UserModel.findOne().where("email").equals(email),
+                UserModel.findOne().where("username").equals(username)
             ])
-            if (existingUser || existingemail) {
-                return res.status(400).json({ message: "Email  Or Username already in use" });
-            }else{
-            // Create a new user if email is unique
+            if(existingemail||existingUser){
+                return res.status(400).json({message:"Email or Username already in use"})
+            }
+             else{
+            // Create a newUser if email and username is unique
             const newUser = await UserModel.create({
                 username,
                 email,
                 password:hashPassword
             })
-             return res.status(201).json(newUser);
+             return res.send("New User Created");
             }
         
         } catch (error) {
@@ -73,9 +73,7 @@ router.post("/login",body_MW_login, async (req,res)=>{
     }else{
         const {username,password} = req.body
         try{
-            const existUser = await UserModel.findOne({
-                username:username
-            })
+            const existUser = await UserModel.findOne().where("username").equals(username)  
             if(!existUser){
                 return res.status(400).json({
                     errors:errors.array(),
