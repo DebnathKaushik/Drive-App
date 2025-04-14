@@ -11,7 +11,7 @@ router.get("/register",(req,res)=>{
     res.render("register")
 })
 
-//3rd Party middleware for register
+//3rd Party middleware for register // validation
 const body_MW_register =[
     body('username').trim().isLength({min:4}),
     body('email').trim().isEmail().isLength({min:4}),
@@ -58,7 +58,7 @@ router.get("/login",(req,res)=>{
     res.render("login")
 })
 
-//3rd Party middleware for login
+//3rd Party middleware for login // validation
 const body_MW_login =[
     body('username').trim().isLength({min:4}),
     body('password').trim().isLength({min:4})
@@ -81,7 +81,7 @@ router.post("/login",body_MW_login, async (req,res)=>{
                 })
             }else{
                 const checkPassword = await bcrypt.compare(password,existUser.password) // here "user found" and check password valid or not
-
+                                                                                        // existUser.password (the hashed password stored in the database)
                 if(!checkPassword){
                     return res.status(400).json({
                         errors:errors.array(),
@@ -98,7 +98,6 @@ router.post("/login",body_MW_login, async (req,res)=>{
                     res.cookie("token",token)    // Save token in Browser Cookie 
                     res.send("User Logged in!")                    
                 }
-                
             }
  
         }catch (error) {

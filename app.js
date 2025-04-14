@@ -5,11 +5,12 @@ dotenv.config()
 const dbconnection = require('./config/db')
 dbconnection()
 const cookieParser = require('cookie-parser')
+const indexRouter = require('./routes/index.route')
 const homeRouter = require('./routes/home.route')
 
 const app = express()
 
-//env file config
+
 
 
 
@@ -21,11 +22,28 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 
+
+
+
 // route set for User
 app.use("/",userRouter)
 
+//route set for Indexpage
+app.use("/",indexRouter)
+
 //route set for Homepage
 app.use("/",homeRouter)
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Server listen
