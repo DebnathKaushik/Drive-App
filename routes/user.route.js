@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 
-// User Routes rsgister
+//Rsgister Page
 router.get("/register",(req,res)=>{
     res.render("register")
 })
@@ -17,7 +17,7 @@ const body_MW_register =[
     body('email').trim().isEmail().isLength({min:4}),
     body('password').trim().isLength({min:4})
 ]
-
+//Register Logic
 router.post("/register",body_MW_register ,async (req,res)=>{
 
     const errors = validationResult(req)
@@ -27,7 +27,7 @@ router.post("/register",body_MW_register ,async (req,res)=>{
         const { username, email, password } = req.body;
         const hashPassword = await bcrypt.hash(password,10) // for hash the password
         try {
-            const [existingemail,existingUser] = await Promise.all([
+            const [existingemail,existingUser] = await Promise.all([    // Database checking
                 UserModel.findOne().where("email").equals(email),
                 UserModel.findOne().where("username").equals(username)
             ])
@@ -53,7 +53,7 @@ router.post("/register",body_MW_register ,async (req,res)=>{
 });
 
 
-// Login here
+// Login Page
 router.get("/login",(req,res)=>{
     res.render("login")
 })
@@ -63,6 +63,7 @@ const body_MW_login =[
     body('username').trim().isLength({min:4}),
     body('password').trim().isLength({min:4})
 ]
+//Login Logic
 router.post("/login",body_MW_login, async (req,res)=>{
     const errors = validationResult(req)
     if(!errors.isEmpty()){
@@ -96,7 +97,7 @@ router.post("/login",body_MW_login, async (req,res)=>{
                     }, process.env.JWT_SECRET)  // JWT secret
                 
                     res.cookie("token",token)    // Save token in Browser Cookie 
-                    res.send("User Logged in!")                    
+                    res.redirect(`/index/${existUser.username}`);                 
                 }
             }
  
