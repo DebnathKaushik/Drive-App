@@ -16,9 +16,18 @@
 
         <div class="bg-gray-300 w-fit rounded-lg px-4 py-2" >
             <h1>Welcome, <%= username %>!</h1>
-            <p>Your email is: <%= email %></p>
+            <p>Email: <%= email %></p>
         </div>
         <br>
+
+
+        <div>
+            <form action="/Sign-out" method="get" >
+                <button class="bg-gray-500 hover:bg-blue-800 top-10 right-10 absolute text-white text-1xl rounded-lg p-2">Sign out</button>
+            </form>
+        </div>
+
+
 
         <button onclick="showPopUp()" class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Choose File</button>
           
@@ -42,12 +51,15 @@
                         </label>
                     </div> 
 
-                      <button class="bg-gray-600 hover:bg-gray-800 text-white font-medium rounded-lg p-2 mt-4 ">upload file</button>
+                      <button class="bg-green-600 hover:bg-green-800 text-white font-medium rounded-lg p-2 mt-4 ">upload file</button>
                 </form>
 
-                <button class="absolute top-4 right-4 text-white text-3xl" onclick="hiddenPopUp()">
-                    <i class="ri-close-line"></i>
-                </button>
+                <!--close button touch from blur effect But not touch with Submit form-->
+                <div>
+                    <button class=" bg-red-600 hover:bg-red-800 bottom-50 right-142 absolute text-white text-1xl rounded-lg p-2" onclick="hiddenPopUp()">
+                        Close
+                    </button>
+                </div>
                 
             </div>
             
