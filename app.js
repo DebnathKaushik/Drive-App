@@ -19,7 +19,7 @@ const app = express()
 app.set("view engine","ejs") 
 //json middleware
 app.use(cookieParser())
-app.use(express.json())
+app.use(express.json())   // for use req.body
 app.use(express.urlencoded({extended:true}))
 
 
