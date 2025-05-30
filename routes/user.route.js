@@ -4,9 +4,11 @@ const UserModel = require("../models/user.model")
 const {body,validationResult} = require('express-validator') // 3rd Party middleware
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const pusher = require("../notifications/pusher")
 
 
-//Rsgister Page
+
+//Get/Rsgister Page
 router.get("/register",(req,res)=>{
     res.render("register")
 })
@@ -17,12 +19,12 @@ const body_MW_register =[
     body('email').trim().isEmail().isLength({min:4}),
     body('password').trim().isLength({min:4})
 ]
-//Register Logic
+//Post/Register Logic
 router.post("/register",body_MW_register ,async (req,res)=>{
 
     const errors = validationResult(req)
         if(!errors.isEmpty()){
-            return res.status(400).json({message:"Invalid credentials"})
+            return res.status(400).json({message:"Invalid credentials / username,pass,email are incorrect !"})
         }else{   
         const { username, email, password } = req.body;
         const hashPassword = await bcrypt.hash(password,10) // for hash the password
@@ -41,8 +43,11 @@ router.post("/register",body_MW_register ,async (req,res)=>{
                 email,
                 password:hashPassword
             })
-             return res.send("New User Created");
+            if(newUser){
+               return res.redirect("/login")
             }
+             return res.send("user creation unsuccessful!");
+        }
         
         } catch (error) {
             // Handle any unexpected errors
@@ -53,7 +58,31 @@ router.post("/register",body_MW_register ,async (req,res)=>{
 });
 
 
-// Login Page
+// post/trigger-notification
+router.post("/trigger-notification", async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const username = decoded.username;
+
+    await pusher.trigger("notification-channel", "notification-event", {
+      message: `${username} logged in`
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Notification failed" });
+  }
+});
+
+
+
+
+
+// Get/login
 router.get("/login",(req,res)=>{
     res.render("login")
 })
@@ -68,8 +97,8 @@ router.post("/login",body_MW_login, async (req,res)=>{
     const errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({
-            errors:errors.array(),
-            meassage:"Username or Password must be 4 charecter!"
+           // errors:errors.array(),
+            meassage:"Username or Password must be 4 charecter! / validation error !"
         })
     }else{
         const {username,password} = req.body
@@ -77,7 +106,7 @@ router.post("/login",body_MW_login, async (req,res)=>{
             const existUser = await UserModel.findOne().where("username").equals(username)  
             if(!existUser){
                 return res.status(400).json({
-                    errors:errors.array(),
+                    //errors:errors.array(),
                     meassage:"Username or password is incorrect"
                 })
             }else{
@@ -85,7 +114,7 @@ router.post("/login",body_MW_login, async (req,res)=>{
                                                                                         // existUser.password (the hashed password stored in the database)
                 if(!checkPassword){
                     return res.status(400).json({
-                        errors:errors.array(),
+                        //errors:errors.array(),
                         meassage:"Username or password is incorrect"
                     })
                 }else{

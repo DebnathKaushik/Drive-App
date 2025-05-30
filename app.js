@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser')
 const indexRouter = require('./routes/index.route')
 const homeRouter = require('./routes/home.route')
 const LogoutRouter = require('./routes/logout.route')
-
 const app = express()
 
 
@@ -48,11 +47,8 @@ app.use("/",LogoutRouter)
 
 
 
-
-
-
-
 // Server listen
 app.listen(3000,()=>{
     console.log(`Server listen on port: ${3000}`);
 })
+

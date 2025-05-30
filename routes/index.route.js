@@ -5,6 +5,7 @@ const UserModel = require("../models/user.model")
 
 
 
+
 // Specific user Authorization 
 router.get("/index/:username", authMiddleware, async(req,res)=>{
     const tokenUsername = req.user.username  // from token -> auth middleware

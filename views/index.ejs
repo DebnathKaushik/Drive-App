@@ -3,11 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>  <!--for notification-->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-    <link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
-    rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"rel="stylesheet"/>
     <title>Index</title>
   </head>
   <body>
@@ -15,7 +14,7 @@
     <main class="p-6 bg-gray-900 h-screen w-screen">
 
         <div class="bg-gray-300 w-fit rounded-lg px-4 py-2" >
-            <h1>Welcome, <%= username %>!</h1>
+            <h1>User: <%= username %></h1>
             <p>Email: <%= email %></p>
         </div>
         <br>
@@ -23,16 +22,24 @@
 
         <div>
             <form action="/Sign-out" method="get" >
-                <button class="bg-gray-500 hover:bg-blue-800 top-10 right-10 absolute text-white text-1xl rounded-lg p-2">Sign out</button>
+                <button class="bg-red-500 hover:bg-red-800 top-10 right-10 absolute text-white text-1xl rounded-lg p-2">logout</button>
             </form>
         </div>
+
+        
+
+<div id="notification"  class="hidden fixed top-4 left-150 bg-white text-red-500 px-2 py-4 rounded-lg shadow-md text-center z-50">
+  
+</div>
+
+
 
 
 
         <button onclick="showPopUp()" class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Choose File</button>
           
 
-            <div class="pop hidden backdrop-blur flex items-center justify-center h-screen w-screen fixed top-0 left-0">
+            <div id="one" class="pop hidden backdrop-blur flex items-center justify-center h-screen w-screen fixed top-0 left-0">
 
                 <form action="/upload-file" method="post" enctype="multipart/form-data">
                     <div class="flex items-center justify-center w-100">
@@ -67,11 +74,54 @@
 
     <script>
         function showPopUp(){
-            document.querySelector(".pop").style.display = "flex"
+            const x = document.getElementById("one")
+            x.classList.remove("hidden")
         }
         function hiddenPopUp(){
-            document.querySelector(".pop").style.display = "none"
+            const y = document.getElementById("one")
+            y.classList.add("hidden")
         }
+
+
+           
+        //pusher
+        Pusher.logToConsole = true;
+        // obj create
+        const pusher = new Pusher('f29922464eb3c0945eb6', {
+            cluster: 'ap1'
+        });
+
+        // channel subscribe
+        const channel = pusher.subscribe('notification-channel');
+        //channel trigger after subscribe
+        channel.bind('pusher:subscription_succeeded', function () {
+        // Trigger backend to send the event now
+        fetch("/trigger-notification", {
+            method: "POST",
+            credentials: "include"
+        });
+
+
+        function notify(msg) {
+            const el = document.getElementById("notification");
+            el.innerHTML = msg;
+            el.classList.remove("hidden");  // show
+
+            setTimeout(() => {
+                el.classList.add("hidden");  // hide
+            }, 2500);
+        }
+
+        // event trigger
+        channel.bind('notification-event', function(data) {
+        notify(data.message);
+        console.log("Notification received:", data);
+        });
+
+            
+     });
+
+
     </script>
             
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
