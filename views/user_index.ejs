@@ -7,12 +7,16 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"rel="stylesheet"/>
-    <title>Index</title>
+    <title>User Index</title>
   </head>
   <body>
     
     <main class="p-6 bg-gray-900 h-screen w-screen">
 
+        <div class="bg-gray-300 w-fit rounded-lg px-6 py-2 text-3xl" >
+            <h1>Role: <%= role %></h1>
+        </div>
+    </br>
         <div class="bg-gray-300 w-fit rounded-lg px-4 py-2" >
             <h1>User: <%= username %></h1>
             <p>Email: <%= email %></p>
@@ -21,7 +25,7 @@
 
 
         <div>
-            <form action="/Sign-out" method="get" >
+            <form action="/Sign-out" method="get" >  <!--/routes/logout-->
                 <button class="bg-red-500 hover:bg-red-800 top-10 right-10 absolute text-white text-1xl rounded-lg p-2">logout</button>
             </form>
         </div>
@@ -73,6 +77,7 @@
     </main>
 
     <script>
+        // for button show and hide
         function showPopUp(){
             const x = document.getElementById("one")
             x.classList.remove("hidden")
@@ -82,15 +87,13 @@
             y.classList.add("hidden")
         }
 
-
-           
         //pusher
         Pusher.logToConsole = true;
-        // obj create
+        // obj create with (key)
         const pusher = new Pusher('62ee3b1c9692423af804', {
             cluster: 'ap1'
         });
-
+        
         // channel subscribe
         const channel = pusher.subscribe('notification-channel');
         //channel trigger after subscribe

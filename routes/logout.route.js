@@ -10,10 +10,10 @@ router.get("/Sign-out",authMiddleware,(req,res)=>{
     if(!tokenUser){
         return res.status(401).res.send("User Unauthorized")
     }
-    const deleteUser = jwt.verify(tokenUser,process.env.JWT_SECRET)  // means (secret and cookies token data) are matched
-    if(deleteUser){
+    const logoutUser = jwt.verify(tokenUser,process.env.JWT_SECRET)  // means (secret and cookies token data) are matched
+    if(logoutUser){
         res.clearCookie("token")
-        return res.redirect("/login") 
+        return res.redirect("/user-login") 
     }
     return res.redirect("/")
     

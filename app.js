@@ -43,12 +43,8 @@ app.use("/",LogoutRouter)
 
 
 
-
-
-
-
 // Server listen
-app.listen(3000,()=>{
-    console.log(`Server listen on port: ${3000}`);
+app.listen(7000,()=>{
+    console.log(`Server listen on port: ${7000}`);
 })
 
