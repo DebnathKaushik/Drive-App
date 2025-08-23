@@ -30,14 +30,16 @@ try{
          return res.status(403).send("Role Mismatch")
     }
 
-    const token = await jwt.sign({      // Create token for valid user(Pass)
-    userId : existUser._id,
+    // Create token for valid user(Pass)
+    const token = await jwt.sign({      
+    userId : existUser._id,             // these are payload
     username : existUser.username,
     email : existUser.email,
     role:existUser.role,
     }, process.env.JWT_SECRET)  // JWT secret
 
-    res.cookie("token",token)    // Save token in Browser Cookie
+    // Save token in Browser Cookie
+    res.cookie("token",token)    
 
     if(role === "admin"){
         return res.redirect(`/admin/${existUser.username}`)
