@@ -11,41 +11,58 @@
   </head>
   <body>
     
-    <main class="p-6 bg-gray-900 h-screen w-screen">
+    <main class="p-6 bg-gray-900  w-screen">
 
-        <div class="bg-gray-300 w-fit rounded-lg px-6 py-2 text-3xl" >
+        <div class="bg-white-500 hover:bg-blue-800 top-1 right-6 absolute text-white text-2xl rounded-lg p-2" >
             <h1>Role: <%= role %></h1>
         </div>
-    </br>
         <div class="bg-gray-300 w-fit rounded-lg px-4 py-2" >
             <h1>User: <%= username %></h1>
             <p>Email: <%= email %></p>
         </div>
         <br>
 
+        <!-- Choose File -->
+        <button onclick="showPopUp()" class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Choose File</button>
+
+        <div>
+            <h2 class="text-xl font-bold text-gray-200">Uploaded Images</h2>
+                <div class="grid grid-cols-3 gap-4 mt-4">
+                <% allimages.forEach(img => { %>
+                    <div class="border rounded-lg shadow p-2">
+                        <a href="<%= img.filePath %>" target="_blank">
+                        <img src="<%= img.filePath %>" class="w-full h-40 object-cover rounded-lg" />
+                        </a>
+                    <p class="text-sm text-gray-500 mt-1">
+                        Uploaded at: <%= img.uploadTime.toLocaleString() %>
+                    </p>
+                    <p class="text-sm text-gray-500 mt-1">
+                        Name: <%= img.filePath %>
+                    </p>
+                    </div>
+                <% }) %>
+                </div>
+        </div>
+
 
         <div>
             <form action="/Sign-out" method="get" >  <!--/routes/logout-->
-                <button class="bg-red-500 hover:bg-red-800 top-10 right-10 absolute text-white text-1xl rounded-lg p-2">logout</button>
+                <button class="bg-red-500 hover:bg-red-800 top-15 right-10 absolute text-white text-1xl rounded-lg p-2">logout</button>
             </form>
         </div>
 
         
-
-<div id="notification"  class="hidden fixed top-4 left-150 bg-white text-red-500 px-2 py-4 rounded-lg shadow-md text-center z-50">
-  
-</div>
-
-
+            <!-- Notification -->>
+            <div id="notification"  class="hidden fixed top-4 left-150 bg-white text-red-500 px-2 py-4 rounded-lg shadow-md text-center z-50">
+            
+            </div>
 
 
-
-        <button onclick="showPopUp()" class="text-white  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Choose File</button>
           
 
             <div id="one" class="pop hidden backdrop-blur flex items-center justify-center h-screen w-screen fixed top-0 left-0">
 
-                <form action="/upload-file" method="post" enctype="multipart/form-data">
+                <form action="" method="post" enctype="multipart/form-data">
                     <div class="flex items-center justify-center w-100">
                         <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -55,14 +72,11 @@
                                   <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                                   <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                             </div>
-                              <input id="dropzone-file" 
-                              type="file" 
-                              class="hidden" 
-                              name="file" />
+                              <input id="dropzone-file" type="file" class="hidden" name="file" />
                         </label>
                     </div> 
 
-                      <button class="bg-green-600 hover:bg-green-800 text-white font-medium rounded-lg p-2 mt-4 ">upload file</button>
+                      <button type="submit" class="bg-green-600 hover:bg-green-800 text-white font-medium rounded-lg p-2 mt-4 ">upload file</button>
                 </form>
 
                 <!--close button touch from blur effect But not touch with Submit form-->

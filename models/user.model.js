@@ -27,7 +27,8 @@ const UserSchema = new mongoose.Schema({
 
 })
    
-
+// "User" is Model name
+// UserModel is obj of "User" Model
 const UserModel = mongoose.model("User",UserSchema)
    
 module.exports = UserModel

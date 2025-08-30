@@ -13,7 +13,7 @@ const verifyRole = (requiredRole) => {
                 return res.status(403).send(`Access denied: ${requiredRole} only`);
             }
 
-            next();  // else next()
+            return next();  // else next()
         } catch (err) {
             return res.status(401).send("Invalid token");
         }

@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser')
 const indexRouter = require('./routes/index.route')
 const homeRouter = require('./routes/home.route')
 const LogoutRouter = require('./routes/logout.route')
+const uploadImageUser = require('./routes/uploadImage.route')
 const app = express()
 
 
@@ -20,6 +21,7 @@ app.set("view engine","ejs")
 app.use(cookieParser())
 app.use(express.json())   // for use req.body
 app.use(express.urlencoded({extended:true}))
+app.use("/uploads",express.static("uploads"))
 
 
 
@@ -36,6 +38,9 @@ app.use("/",homeRouter)
 
 //route set for logout
 app.use("/",LogoutRouter)
+
+//route set for ImageUpload(admin)
+app.use("/",uploadImageUser)
 
 
 
