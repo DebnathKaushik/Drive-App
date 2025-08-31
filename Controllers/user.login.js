@@ -36,10 +36,11 @@ try{
     username : existUser.username,
     email : existUser.email,
     role:existUser.role,
+    IsloggedIn:true, // for onetime notification show up
     }, process.env.JWT_SECRET)  // JWT secret
 
     // Save token in Browser Cookie
-    res.cookie("token",token)    
+    res.cookie("token",token)  
 
     if(role === "admin"){
         return res.redirect(`/admin/${existUser.username}`)

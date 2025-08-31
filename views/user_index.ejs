@@ -11,7 +11,7 @@
   </head>
   <body>
     
-    <main class="p-6 bg-gray-900  w-screen">
+    <main class="p-6 bg-gray-900 min-h-screen w-screen">
 
         <div class="bg-white-500 hover:bg-blue-800 top-1 right-6 absolute text-white text-2xl rounded-lg p-2" >
             <h1>Role: <%= role %></h1>
@@ -45,8 +45,9 @@
         </div>
 
 
+         <!--/routes/logout-->
         <div>
-            <form action="/Sign-out" method="get" >  <!--/routes/logout-->
+            <form action="/Sign-out" method="get" > 
                 <button class="bg-red-500 hover:bg-red-800 top-15 right-10 absolute text-white text-1xl rounded-lg p-2">logout</button>
             </form>
         </div>
@@ -59,7 +60,7 @@
 
 
           
-
+            <!-- Form -->
             <div id="one" class="pop hidden backdrop-blur flex items-center justify-center h-screen w-screen fixed top-0 left-0">
 
                 <form action="" method="post" enctype="multipart/form-data">
@@ -119,6 +120,13 @@
         });
 
 
+        // event trigger
+        channel.bind('notification-event', function(data) {
+        notify(data.message);
+        console.log("Notification received:", data);
+        });
+
+
         function notify(msg) {
             const el = document.getElementById("notification");
             el.innerHTML = msg;
@@ -129,11 +137,6 @@
             }, 4000);
         }
 
-        // event trigger
-        channel.bind('notification-event', function(data) {
-        notify(data.message);
-        console.log("Notification received:", data);
-        });
 
             
      });

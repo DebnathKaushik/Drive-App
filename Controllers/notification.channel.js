@@ -5,16 +5,28 @@ const pusher = require("../notifications/pusher")
 const notify = async (req, res) => {
   try {
     const token = req.cookies.token;
-    if (!token) return res.status(401).json({ message: "Unauthorized" });
+    if (!token){ 
+      return res.status(401).json({ message: "Unauthorized" });
+    }
 
     //else
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const username = decoded.username;
+
+    // repeted / multiple refresh
+    if(!decoded.IsloggedIn){
+      console.log("Already notified")
+      return res.json({message:"Already notified"})
+    }      
 
     await pusher.trigger("notification-channel", "notification-event", {
-      message: `👽 ${username} logged in`
+      message: `👽 ${decoded.username} logged in`
     });
 
+    const newToken = jwt.sign({
+      ...decoded,IsloggedIn:false,
+    },process.env.JWT_SECRET)
+
+    res.cookie("token",newToken)   // After first notification,issue a new JWT with justLoggedIn: false.
     res.json({ success: true });
   } catch (err) {
     console.error(err);
