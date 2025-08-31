@@ -9,6 +9,7 @@ const indexRouter = require('./routes/index.route')
 const homeRouter = require('./routes/home.route')
 const LogoutRouter = require('./routes/logout.route')
 const uploadImageUser = require('./routes/uploadImage.route')
+const deleteuserbyAdmin = require('./routes/delete.user.route')
 const app = express()
 
 
@@ -41,6 +42,9 @@ app.use("/",LogoutRouter)
 
 //route set for ImageUpload(admin)
 app.use("/",uploadImageUser)
+
+//route set for admin delete User
+app.use("/",deleteuserbyAdmin)
 
 
 

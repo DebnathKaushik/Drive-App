@@ -13,16 +13,46 @@
     
     <main class="p-6 bg-gray-900 min-h-screen w-screen">
 
+            <!-- Role -->
             <div class="bg-white-500 hover:bg-blue-800 top-1 right-6 absolute text-white text-2xl rounded-lg p-2" >
             <h1>Role: <%= role %></h1>
             </div>
 
-            <div class="bg-gray-300 w-fit rounded-lg px-4 py-2" >
-                <h1>User: <%= username %></h1>
-                <p>Email: <%= email %></p>
+            <!-- username and email -->
+            <div class="bg-gray-600 w-fit rounded-lg px-4 py-2" >
+                <h1 class="text-white">User: <%= username %></h1>
+                <p class="text-white">Email: <%= email %></p>
             </div>
             <br>
 
+            <!-- Users div -->
+            <div class="p-4">
+            
+                <div class="text-white text-2xl">
+                    Users
+                </div>
+                
+                <!-- Users List -->
+               <ul class="mt-3 p-3 border rounded bg-gray-600">
+                    <li class="grid grid-cols-4  p-2 font-bold text-gray-200 border-b">
+                        <span>Username</span>
+                        <span>Email</span>
+                    </li>
+                    <% alluser.forEach(user => { %>
+                        <li class="grid grid-cols-4  p-2 border-b last:border-b-0 text-white">
+                        <span><%= user.username %></span>
+                        <span><%= user.email %></span>
+                        <form action="/delete-user/<%= user._id %>" method="POST">
+                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded">Delete</button>
+                        </form>
+                        </li>
+                    <% }) %>
+                </ul>
+
+
+            </div>
+
+        
 
             <div>
                 <form action="/Sign-out" method="get" >  <!--/routes/logout-->
@@ -40,17 +70,8 @@
     </main>
 
     <script>
-        // for button show and hide
-        function showPopUp(){
-            const x = document.getElementById("one")
-            x.classList.remove("hidden")
-        }
-        function hiddenPopUp(){
-            const y = document.getElementById("one")
-            y.classList.add("hidden")
-        }
-
-        //pusher
+        
+        //pusher---------------------------------------------------
         Pusher.logToConsole = true;
         // obj create with (key)
         const pusher = new Pusher('62ee3b1c9692423af804', {
@@ -67,6 +88,11 @@
             credentials: "include"
         });
 
+        // event trigger
+        channel.bind('notification-event', function(data) {
+        notify(data.message);
+        console.log("Notification received:", data);
+        });
 
         function notify(msg) {
             const el = document.getElementById("notification");
@@ -77,12 +103,10 @@
                 el.classList.add("hidden");  // hide
             }, 4000);
         }
+        // -----------------------------------------------------
 
-        // event trigger
-        channel.bind('notification-event', function(data) {
-        notify(data.message);
-        console.log("Notification received:", data);
-        });
+
+
 
             
      });
