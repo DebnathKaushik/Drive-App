@@ -10,7 +10,10 @@ const homeRouter = require('./routes/home.route')
 const LogoutRouter = require('./routes/logout.route')
 const uploadImageUser = require('./routes/uploadImage.route')
 const deleteuserbyAdmin = require('./routes/delete.user.route')
+const updateuserbyAdmin = require("./routes/update.user.route")
 const app = express()
+
+const methodOverrride = require("method-override")
 
 
 
@@ -23,6 +26,9 @@ app.use(cookieParser())
 app.use(express.json())   // for use req.body
 app.use(express.urlencoded({extended:true}))
 app.use("/uploads",express.static("uploads"))
+
+// method override for patch and delete cause in html only supports post and get 
+app.use(methodOverrride('_method'))
 
 
 
@@ -43,9 +49,11 @@ app.use("/",LogoutRouter)
 //route set for ImageUpload(admin)
 app.use("/",uploadImageUser)
 
-//route set for admin delete User
+//route set for admin -> delete User
 app.use("/",deleteuserbyAdmin)
 
+//route set for admin -> Update User
+app.use("/",updateuserbyAdmin)
 
 
 

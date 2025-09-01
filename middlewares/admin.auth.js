@@ -6,6 +6,7 @@ const verifyRole = (requiredRole) => {
         if (!token) return res.status(401).send("Token missing");
 
         try {
+            // decoded means exits user in db 
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user = decoded;
 

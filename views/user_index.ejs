@@ -40,7 +40,7 @@
                         Name: <%= img.filePath %>
                     </p>
                 </br>
-                    <form action="/delete-image/<%= img._id %>" method="POST">
+                    <form action="/delete-image/<%= img._id %>?_method=DELETE" method="POST">
                             <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded">Delete</button>
                     </form>
                     </div>

@@ -10,7 +10,7 @@ const errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({
             //errors:errors.array(),
-            meassage:"Username, Password and role required(validation)"
+            meassage:"Invalid credentials / username,pass,email and role are required"
         })
     }
 

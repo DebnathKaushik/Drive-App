@@ -4,8 +4,8 @@ const UserModel = require('../models/user.model')
 const ImageModel = require('../models/image.model')
 const authMiddleware = require('../middlewares/admin.auth')
 
-// delete User and image from admin
-router.post("/delete-user/:id",authMiddleware("admin"),async(req,res)=>{
+// delete User and image from admin -->(/delete-user/:id) This comes from admin_index.ejs 
+router.delete("/delete-user/:id",authMiddleware("admin"),async(req,res)=>{
     try{
         const userId = req.params.id 
         const existUser = await UserModel.findById(userId)
@@ -25,8 +25,8 @@ router.post("/delete-user/:id",authMiddleware("admin"),async(req,res)=>{
 })
 
 
-// Delete image from User
-router.post("/delete-image/:id",authMiddleware("user"),async(req,res)=>{
+// Delete image from User --> This comes from user_index.ejs 
+router.delete("/delete-image/:id",authMiddleware("user"),async(req,res)=>{
     try{
         const imageId = req.params.id 
         const existImage = await ImageModel.findById(imageId)

@@ -4,6 +4,7 @@ const ImageModel = require("../models/image.model")
 const authMiddleware = require('../middlewares/admin.auth')
 const uploadImage = require("../middlewares/multer.config")
 
+// here submit form data in same page this route 
 router.post("/user/:username", authMiddleware("user"),uploadImage.single("file"),async(req,res)=>{
   try{
         if (!req.file) {

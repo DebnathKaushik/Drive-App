@@ -7,7 +7,7 @@ const UserRegister = async (req,res)=>{
 
     const errors = validationResult(req)
         if(!errors.isEmpty()){
-            return res.status(400).send("Invalid credentials / username,pass,email and role are required !")
+            return res.status(400).json({message:"Invalid credentials / username,pass,email and role are required !"})
         }else{   
         const { username, email, password ,role} = req.body;
         const hashPassword = await bcrypt.hash(password,10) // for hash the password
