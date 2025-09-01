@@ -7,7 +7,7 @@ const UserRegister = async (req,res)=>{
 
     const errors = validationResult(req)
         if(!errors.isEmpty()){
-            return res.status(400).json({message:"Invalid credentials / username,pass,email and role are required !"})
+            return res.render("user_register",{errorMessage:"Username,email,password and role required!"})
         }else{   
         const { username, email, password ,role} = req.body;
         const hashPassword = await bcrypt.hash(password,10) // for hash the password
@@ -17,9 +17,9 @@ const UserRegister = async (req,res)=>{
                 UserModel.findOne().where("username").equals(username)
             ])
             if(existingemail||existingUser){
-                return res.status(400).send("Email or Username already in use")
+                return res.render("user_register",{errorMessage:"Email or Username already in use"})
             }else{
-            // Create a newUser if email and username is unique
+            // Create a newUser if email and username is unique / not store in db
             const newUser = await UserModel.create({
                 username,
                 email,
@@ -29,7 +29,7 @@ const UserRegister = async (req,res)=>{
             if(newUser){
                return res.redirect("/user-login")
             }
-             return res.send("user creation unsuccessful!");
+            return res.render("user_register",{errorMessage:"user creation unsuccessful!"})
         }
         
         } catch (error) {

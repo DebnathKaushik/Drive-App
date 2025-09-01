@@ -4,30 +4,29 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 
+
 // Login Logic
 const UserLogin = async (req,res)=>{
 const errors = validationResult(req)
     if(!errors.isEmpty()){
-        return res.status(400).json({
-            //errors:errors.array(),
-            meassage:"Invalid credentials / username,pass,email and role are required"
-        })
+        // this is for toastr notification (errorMessage)
+        return res.render("user_login",{errorMessage:"Username,email,role required!"})
     }
 
 const {username,password,role} = req.body
 try{
     const existUser = await UserModel.findOne().where("username").equals(username)  
     if(!existUser){
-        return res.status(400).send("Username or password is invalid")
+        return res.render("user_login",{errorMessage:"Username or password is invalid"})
     }
 
     const checkPassword = await bcrypt.compare(password,existUser.password) // here "user found" and check password valid or not                                                                     // existUser.password (the hashed password stored in the database)
     if(!checkPassword){
-        return res.status(400).send("Username or password is invalid")
+       return res.render("user_login",{errorMessage:"Username or password is invalid"})
     }
 
     if(existUser.role != role){
-         return res.status(403).send("Role Mismatch")
+         return res.render("user_login",{errorMessage:"Role Mismatch"})
     }
 
     // Create token for valid user(Pass)

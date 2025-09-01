@@ -6,12 +6,13 @@
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+
+
     <title>User Login</title>
   </head>
 
 
   <body class="bg-gray-100 dark:bg-gray-900 w-screen h-screen flex items-center justify-center">
-
     <!-- for Back icon -->
     <button onclick="window.location.href='/'" class="absolute top-4 left-2 text-white text-3xl ">
       <img src="/uploads/folder_14047886.png" class="w-10 h-10 object-cover rounded-lg" alt="Logo" />
@@ -59,6 +60,21 @@
     </div>
   
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    
+     <!-- this is for notification -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
+    <% if (typeof errorMessage !== "undefined"){ %>
+      <script>
+        swal.fire({
+          icon:'error',
+          text: '<%= errorMessage %>',
+        })
+      </script>
+
+   <% }%>
+
+
   </body>
 
 </html>

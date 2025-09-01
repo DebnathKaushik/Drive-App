@@ -8,6 +8,7 @@ const notify = require("../Controllers/notification.channel")
 
 //Get//User//Register 
 router.get("/user-register",(req,res)=>{
+     // render user_register.ejs
     res.render("user_register")
 })
 // validation(express validation library)
@@ -24,7 +25,8 @@ router.post("/user-register",body_MW_register,UserRegister);
 
 // Get//User//login
 router.get("/user-login",(req,res)=>{
-    res.render("user_login")
+    // render user_login.ejs
+    res.render("user_login")  
 })
 // validation(express validation library)
 const body_MW_login =[
