@@ -20,11 +20,11 @@ const notify = async (req, res) => {
 
     if(decoded.role === "admin"){
         await pusher.trigger("notification-channel", "notification-event", {
-        message: `👨‍💼 ${decoded.username} logged in`
+        message: `👨‍💼 '${decoded.username}' logged in`
       });
     }else{
       await pusher.trigger("notification-channel", "notification-event", {
-      message: `👽 ${decoded.username} logged in`
+      message: `👽 '${decoded.username}' logged in`
     });
   }
 
