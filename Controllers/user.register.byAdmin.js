@@ -25,6 +25,13 @@ const UserRegisterbyAdmin = async (req,res)=>{
                     username:req.params.username,
                 })
             }else{
+
+                if(role === "admin"){
+                    return res.render("admin_add_user",{
+                        errorMessage:`Admin cannot create Admin!`,
+                        username:req.params.username,
+                    })
+                }
             // Create a newUser if email and username is unique / not store in db
             const newUser = await UserModel.create({
                 username,
