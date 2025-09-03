@@ -11,6 +11,7 @@ const LogoutRouter = require('./routes/logout.route')
 const uploadImageUser = require('./routes/uploadImage.route')
 const deleteuserbyAdmin = require('./routes/delete.user.route')
 const updateuserbyAdmin = require("./routes/update.user.route")
+const adduserbyAdmin = require('./routes/admin.add.user.route')
 const app = express()
 
 const methodOverrride = require("method-override")
@@ -55,6 +56,8 @@ app.use("/",deleteuserbyAdmin)
 //route set for admin -> Update User
 app.use("/",updateuserbyAdmin)
 
+//route set for admin -> Add User
+app.use("/",adduserbyAdmin)
 
 
 
